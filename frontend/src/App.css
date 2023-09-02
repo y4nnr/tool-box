@@ -1,0 +1,129 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.main-app-container {
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.main-component-section {
+  margin-bottom: 20px;
+}
+
+.main-separator {
+  width: 100%;
+  border-top: 5px solid #c41717;
+}
+
+.main-component-title {
+  margin: 1px 1px;
+  font-size: 24px;
+  color: #c41717;
+  background-color: #fdfdfd; 
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.app-container {
+  display: flex;
+  height: 90vh; 
+  background-color: white; /* Ensure the full app background is white */
+}
+
+.main-content {
+  flex: 0 0 60%; 
+  overflow-y: auto; 
+  height: 100vh; 
+  border-right: 5px solid black; /* Increase the width of the border to make it bolder */
+  padding-right: 10px; 
+}
+
+
+.monitor-container {
+  flex: 0 0 40%; 
+  height: 100vh; 
+  position: sticky;
+  top: 0; 
+  overflow-y: auto; 
+  background-color: #ffffff; 
+  color: white;
+  padding-left: 10px; /* Provide some space between the commands and the line */
+  padding: 20px;
+
+}
+
+.main-component-section {
+  padding: 20px; 
+}
+
+.main-separator {
+  width: 100%; 
+}
+
+.main-title {
+  font-size: 70px; /* You can adjust the size as per your preference */
+  text-align: center;
+  margin: 25px 25px;
+  color: #faf9f9;
+  border-radius: 15px;
+  font-style: bold;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;  /* Ensure it stays on top of other content */
+  background-color: #c41717; 
+}
+
+
+
+.app-container {
+  display: flex;
+}
+
+.main-content {
+  flex: 3;  /* 60% width */
+  overflow-y: auto;  /* Allows scrolling */
+  height: auto;  /* Adjust this value as needed */
+}
+
+.monitor-sticky {
+  flex: 2;  /* 40% width */
+  position: sticky;
+  top: 0;
+  overflow-y: auto;  /* Allows scrolling */
+  height: calc(100vh - (height of your title + some padding));  /* Adjust this value as needed */
+}

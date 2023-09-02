@@ -1,0 +1,228 @@
+body, html {
+    overflow: hidden; /* prevent global scrollbar */
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+
+.counter-container {
+    font: bold
+}
+
+.counter {
+    padding: 10px 20px;
+    border: none;
+    margin: 15px 15px;
+    background-color: #e9e9e9;
+    color: #007BFF;
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 10px 24px; /* Some padding */
+    transition: background-color 0.3s ease;
+}
+
+.btn-group button {
+    background-color: #007BFF; /* Green background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    padding: 10px 20px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
+  }
+  
+  .btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+  }
+  
+  /* Clear floats (clearfix hack) */
+  .btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  /* Add a background color on hover */
+  .btn-group button:hover {
+    background-color: #0056b3;
+  }
+
+button {
+    padding: 10px 20px;
+    border: none;
+    margin: 15px 15px;
+    background-color: #007BFF;
+    color: #FFF;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.ranking-table, .ranking-table th, .ranking-table td {
+    border: 1px solid #ddd;
+}
+
+.ranking-table th, .ranking-table td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.ranking-table th {
+    background-color: #f2f2f2;
+}
+
+.ranking-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+.ranking-table td {
+    vertical-align: middle;
+}
+
+/* Add these styles to your styles.css or equivalent */
+.code-container {
+    border: 1px solid #d1d1d1;
+    background-color: #f1f1f1;
+    padding: 16px;
+    margin-top: 10px;
+}
+
+.code-button {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    margin: 15px 15px;
+    cursor: pointer;
+    border-radius: 16px;
+    font-size: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 5px;
+}
+
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  text-align: center;
+  background-color: #444;
+  color: white;
+  border-radius: 15px;
+  padding: 10px 20px;
+  margin: 15px 15px;
+
+}
+
+.fa {font-size:50px;}
+
+
+/* Style for the Monitor terminal */
+.terminal {
+    background-color: #000;
+    color: #0f0;
+    padding: 15px;
+    border-radius: 5px;
+    width: 70%;
+    height: 500px;
+    overflow-y: scroll;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    white-space: pre-wrap;
+    line-height: 20px;
+    border-radius: 15px;
+    margin: 15px 15px;
+ 
+}
+
+.terminal-input {
+    color: #f0f;
+}
+
+.command {
+    margin-bottom: 10px;
+}
+
+/* Cart Container */
+.cart-container {
+    background-color: #f6f6f6;
+    padding: 15px;
+    border-radius: 8px;
+    width: 300px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart Items */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Cart Buttons */
+.cart-button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background: linear-gradient(to right, #6C5CE7, #8E44AD);
+    color: white;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.cart-button:hover {
+    background: linear-gradient(to right, #8E44AD, #6C5CE7);
+    transform: scale(1.05);
+}
+
+.cart-button:last-of-type {
+    margin-right: 0;
+}

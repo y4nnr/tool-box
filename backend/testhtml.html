@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <script>
+        const socket = new WebSocket("ws://localhost:3001");
+
+        socket.addEventListener('open', (event) => {
+            console.log('WebSocket connection opened:', event);
+            socket.send('start'); // Send a message to initiate monitoring.
+        });
+
+        socket.addEventListener('message', (event) => {
+            console.log('Received from server:', event.data);
+        });
+
+        socket.addEventListener('close', (event) => {
+            console.log('Connection closed, code=' + event.code + ', reason=' + event.reason);
+        });
+
+        socket.addEventListener('error', (event) => {
+            console.log('Error:', event);
+        });
+    </script>
+</body>
+</html>
