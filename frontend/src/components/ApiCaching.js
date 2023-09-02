@@ -56,37 +56,75 @@ const toggleCode = () => {
         }
     };
 
+    // New styles
+    const inputStyle = {
+        padding: '10px',
+        borderRadius: '5px',
+        margin: '0 10px 20px 0',
+        fontSize: '18px',
+        width: 'calc(50% - 10px)'
+    };
+
+    const buttonStyle = {
+        padding: '10px 15px',
+        borderRadius: '5px',
+        backgroundColor: '#3498db',
+        color: 'white',
+        border: 'none',
+        cursor: 'pointer',
+        margin: '10px 5px'
+    };
+
+    const titleStyle = {
+        borderBottom: '2px solid #3498db',
+        paddingBottom: '10px',
+        marginTop: '20px'
+    };
+
+    const infoStyle = {
+        fontSize: '20px',
+        display: 'flex',
+        alignItems: 'center'
+    };
+
+    const dataStyle = {
+        fontSize: '20px',
+        color: '#007BFF',
+        marginLeft: '10px'
+    };
+
     return (
         <div>
-            <h3> Weather for {weather.name}</h3>
-            <div style={{ fontSize: '20px' }}> Temperature: </div><div style={{ fontSize: '20px', color: '#007BFF'}}>{kelvinToCelsius(weather.main?.temp).toFixed(2)} °C</div>
-            <div style={{ fontSize: '20px' }}>Description:</div><div style={{ fontSize: '20px', color: '#007BFF'}}> {weather.weather && weather.weather[0] && weather.weather[0].description}</div>
-            <div style={{ fontSize: '20px'}}>Response Time: </div><div style={{ fontSize: '20px', color: '#007BFF'}}>{responseTime} ms</div>
-            <div >
-                <select style={{ fontSize: '20px'}} value={city} onChange={e => setCity(e.target.value)}>
+            <h3 style={titleStyle}>Weather for {weather.name}</h3>
+            <div style={infoStyle}>Temperature: <span style={dataStyle}>{kelvinToCelsius(weather.main?.temp).toFixed(2)} °C</span></div>
+            <div style={infoStyle}>Description: <span style={dataStyle}>{weather.weather && weather.weather[0] && weather.weather[0].description}</span></div>
+            <div style={infoStyle}>Response Time: <span style={dataStyle}>{responseTime} ms</span></div>
+            <div>
+                <select style={{ ...inputStyle, width: 'auto', fontSize: '20px'}} value={city} onChange={e => setCity(e.target.value)}>
                     {cities.map(cityName => (
                         <option key={cityName} value={cityName}>
                             {cityName}
                         </option>
                     ))}
                 </select>
-                <button onClick={() => fetchWeather(false)}>Get Data from Cache</button>
-                <button onClick={() => fetchWeather(true)}>Get Data from Source API</button>
-                <button onClick={clearCityCache}>Clear City Cache</button>
-
+                <button style={buttonStyle} onClick={() => fetchWeather(false)}>Get Data from Cache</button>
+                <button style={buttonStyle} onClick={() => fetchWeather(true)}>Get Data from Source API</button>
+                <button style={buttonStyle} onClick={clearCityCache}>Clear City Cache</button>
             </div>
-            {/* Show/Hide Code button */}
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', marginTop: '10px' }}>
-        <button className="code-button" onClick={toggleCode} style={{ flex: 1 }}>
-          {showCode ? "Hide the Code" : "Show the Code"}
-        </button>
+            
+           {/* Show/Hide Code button */}
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+              {showCode ? "Hide the Code" : "Show the Code"}
+          </button>
       </div>
-  
+
       {showCode && (
-        <div className="code-container" style={{ marginTop: '10px',width: '100%' }}>
-        <pre>
-            <code style={{ marginTop: '10px',width: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'  }}>
-                            {`
+    <div className="code-container" style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>
+        <pre style={{ padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', background: '#f7f7f7' }}>
+            <code>
+{`////////////////////////////////////////////// API Caching OPENWEATHER
+
 app.get('/weather', async (req, res) => {
     console.log("Received request for weather data.");
     const city = req.query.city || 'Seattle';
@@ -145,14 +183,16 @@ app.delete('/cache', (req, res) => {
         }
     });
 });
+    //////////////////////////////////////////////;`}
+            </code>
+        </pre>
+    </div>
+)}
 
-                            `}
-                        </code>
-                    </pre>
-                </div>
-            )}
-        </div>
-    );
+
+  </div>
+);
+
 }
 
 export default ApiCaching;

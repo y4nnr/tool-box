@@ -81,8 +81,15 @@ const toggleCode = () => {
         };
         console.log('Cart:', cart);
 
+        const titleStyle = {
+            borderBottom: '2px solid #3498db',
+            paddingBottom: '10px',
+            marginTop: '20px'
+        };
+
         return (
             <div>
+                <h3 style={titleStyle}>Select up to 4 Seats</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
                     {Array.from({ length: 16 }).map((_, index) => {
                         const seatIdentifier = `seat${index}`;
@@ -95,7 +102,7 @@ const toggleCode = () => {
                         );
                     })}
                 </div>
-                
+                <h3 style={titleStyle}>Bitmap Rendering</h3>
                 <div style={{ marginTop: '20px' }}>
                     {bitmap.toString(2).padStart(16, '0').split('').map((bit, index) => (
                         <span key={index} style={{ background: bit === '1' ? 'yellow' : 'white', padding: '5px', border: '1px solid black' }}>
@@ -108,25 +115,69 @@ const toggleCode = () => {
                 <button onClick={emptySelection}>Empty Selection</button>
             </div>
             
-                {/* Show/Hide Code button */}
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', marginTop: '10px' }}>
-                    <button className="code-button" onClick={toggleCode} style={{ flex: 1 }}>
-                        {showCode ? "Hide the Code" : "Show the Code"}
-                    </button>
-                </div>
-        
-                {showCode && (
-                    <div className="code-container" style={{ marginTop: '10px', width: '100%' }}>
-                        <pre>
-                            <code style={{ marginTop: '10px', width: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
-                                {/* ... your existing code block here ... */}
-                            </code>
-                        </pre>
-                    </div>
-                )}
-            </div>
-        );
-        
-}
+                         {/* Show/Hide Code button */}
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+              {showCode ? "Hide the Code" : "Show the Code"}
+          </button>
+      </div>
 
+      {showCode && (
+    <div className="code-container" style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>
+        <pre style={{ padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', background: '#f7f7f7' }}>
+            <code>
+{`/////////////////////////////////////////////// Seating Map
+// Get the bitmap representation
+app.get('/seating', (req, res) => {
+    client.get('seats', (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to fetch seats' });
+        const bitmap = reply ? parseInt(reply, 2) : 0; // Convert binary string to integer
+        res.json({ bitmap });
+    });
+});
+
+// Set a seat or deselect
+app.post('/setSeat', (req, res) => {
+    const seatIndex = req.body.seatIndex;
+    client.get('seats', (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to fetch seats' });
+        let bitmap = reply ? parseInt(reply, 2) : 0;
+        
+        // Toggle the bit
+        bitmap ^= (1 << seatIndex);
+        
+        // Check if the number of set bits exceeds 8
+        if (bitmap.toString(2).split('1').length - 1 > 8) {
+            return res.status(400).json({ error: 'Booking is limited to 8 seats maximum.' });
+        }
+
+        client.set('seats', bitmap.toString(2).padStart(16, '0'), (error) => {
+            if (error) return res.status(500).json({ error: 'Failed to update seat' });
+            res.json({ bitmap });
+        });
+    });
+});
+
+app.post('/emptySelection', (req, res) => {
+    client.set('seats', '0000000000000000', (err) => {
+        if (err) {
+            res.status(500).json({ error: "Failed to reset the seats" });
+        } else {
+            res.json({ message: "Seats reset successfully" });
+        }
+    });
+});
+
+
+//////////////////////////////////////////////;`}
+            </code>
+        </pre>
+    </div>
+)}
+
+
+  </div>
+);
+
+}
 export default SeatingMap;

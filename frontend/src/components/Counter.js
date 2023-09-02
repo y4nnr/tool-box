@@ -41,50 +41,48 @@ const toggleCode = () => {
 
 
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-  
+return (
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
+
       {/* Counter Display */}
-      <div style={{ fontSize: '20px',width: '%', display: 'flex', justifyContent: 'flex-start'}}>
-        <div class="card" style={{ flex: 1 }}>
-          <p ><i class="fa fa-user"></i></p>
-          Count: {count}
-        </div>
-      </div>
-  
-      {/* Increment and Decrement buttons */}
-      <div style={{ width: '%', display: 'flex', justifyContent: 'flex-start', gap: '10px', marginTop: '10px' }}>
-        <button onClick={increment} style={{ flex: 1 }}>Increment</button>
-        <button onClick={decrement} style={{ flex: 1 }}>Decrement</button>
+      <div style={{ fontSize: '24px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
+          <div class="card" style={{ padding: '10px 20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+              <p style={{ marginRight: '10px' }}><i class="fa fa-user"></i></p>
+              Count: {count}
+          </div>
       </div>
 
-{/* Set Counter Manually */}
-<div style={{ width: '%', display: 'flex', justifyContent: 'flex-start', gap: '10px', marginTop: '10px', fontSize: '60px' }}>
+      {/* Increment and Decrement buttons */}
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '20px' }}>
+          <button onClick={increment} style={{ padding: '10px 20px', fontSize: '18px' }}>Increment</button>
+          <button onClick={decrement} style={{ padding: '10px 20px', fontSize: '18px' }}>Decrement</button>
+      </div>
+
+      {/* Set Counter Manually */}
+<div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginTop: '10px' }}>
     <input 
         type="number" 
         value={inputValue} 
         onChange={(e) => setInputValue(e.target.value)} 
         placeholder="Set Counter Value"
-        style={{ flex: 2, fontSize: '20px', textAlign: 'center' }}
+        style={{ fontSize: '20px', textAlign: 'center', width: '60%', padding: '10px' }}
     />
-    <button onClick={setCounter} style={{ flex: 1 }}>Set Counter Value</button>
+    <button onClick={setCounter} style={{ padding: '10px 20px' }}>Set Counter Value</button>
 </div>
 
 
-  
       {/* Show/Hide Code button */}
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', marginTop: '10px' }}>
-        <button className="code-button" onClick={toggleCode} style={{ flex: 1 }}>
-          {showCode ? "Hide the Code" : "Show the Code"}
-        </button>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+              {showCode ? "Hide the Code" : "Show the Code"}
+          </button>
       </div>
-  
+
       {showCode && (
-        <div className="code-container" style={{ marginTop: '10px',width: '100%' }}>
-        <pre>
-            <code style={{ marginTop: '10px',width: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'  }}>
-                            {`
-////////////////////////////////////////////// String counter
+    <div className="code-container" style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>
+        <pre style={{ padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', background: '#f7f7f7' }}>
+            <code>
+{`////////////////////////////////////////////// String counter
 // Fetch the counter value from Redis
 app.get('/counter', (req, res) => {
     client.get('counter', (err, reply) => {
@@ -116,16 +114,16 @@ app.post('/setCounter', (req, res) => {
         if (err) return res.status(500).json({ error: 'Failed to set counter' });
         res.json({ value: parseInt(value, 10) });
     });
-});
+});`}
+            </code>
+        </pre>
+    </div>
+)}
 
 
-                            `}
-                        </code>
-                    </pre>
-                </div>
-            )}
-            </div>
+  </div>
 );
+
 }
 
 

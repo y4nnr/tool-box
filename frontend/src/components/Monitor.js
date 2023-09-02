@@ -6,6 +6,13 @@ const formatDateWithMilliseconds = (timestampInSeconds) => {
 }
 
 
+const titleStyle = {
+    borderBottom: '2px solid #3498db',
+    paddingBottom: '10px',
+    marginTop: '20px',
+    margin: '20px'
+
+};
 
 function Monitor() {
     console.log("Monitor rendered");  // <-- Add this line here
@@ -62,53 +69,92 @@ const toggleCode = () => {
 
     return (
         <div>
+        <h3 style={titleStyle}>Output of the Redis Monitor Command</h3>
+   
+        <div>
             <div className="terminal" style={{ width: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>
                 {commands.map((command, index) => (
                     <div className="command" key={index}>{command}</div>
                 ))}
             </div>
-            <div style={{ width: 'auto', display: 'flex', justifyContent: 'flex-start', marginTop: '10px' }}>
-            <button className="code-button" onClick={toggleCode} style={{ flex: 1 }}>
-          {showCode ? "Hide the Code" : "Show the Code"}
-            </button>
-            </div>
-            {showCode && (
-        <div className="code-container" style={{ marginTop: '10px',width: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'  }}>
-        <pre>
-                    <code style={{ marginTop: '10px',width: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'  }}>
-                            {`
-/// wss.on('connection', (ws) => {
-    console.log('Client connected.');
+            
+ {/* Show/Hide Code button */}
+ <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+              {showCode ? "Hide the Code" : "Show the Code"}
+          </button>
+      </div>
 
-    const redis = new Redis();
+      {showCode && (
+    <div className="code-container" style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>
+        <pre style={{ padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', background: '#f7f7f7' }}>
+            <code>
+{`////////////////////////////////////////////// API Caching OPENWEATHER
 
-    redis.monitor((err, monitor) => {
+app.get('/weather', async (req, res) => {
+    console.log("Received request for weather data.");
+    const city = req.query.city || 'Seattle';
+
+    if (req.query.source === 'true') {
+        // Fetch directly from OpenWeather API without checking cache
+        try {
+            console.log("Fetching data directly from OpenWeather API...");
+            let weatherResponse = await axios.get(https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHER_API_KEY});
+            res.json(weatherResponse.data);
+            return;
+        } catch (error) {
+            console.error("Failed to fetch from OpenWeather API:", error.message);
+            res.status(500).json({ error: "Failed to fetch weather data" });
+            return;
+        }
+    }
+
+    // Check cache first
+    redisClient.get(city, async (err, data) => {
         if (err) throw err;
 
-        console.log('Connected to Redis.');
-
-        monitor.on('monitor', (time, args, source, database) => {
-            ws.send(JSON.stringify(args));
-        });
+        if (data !== null) {
+            console.log("Serving data from cache.");
+            res.json(JSON.parse(data));
+        } else {
+            try {
+                console.log("Fetching data from OpenWeather API...");
+                let weatherResponse = await axios.get(https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHER_API_KEY});
+                redisClient.setex(city, 300, JSON.stringify(weatherResponse.data));
+                res.json(weatherResponse.data);
+            } catch (error) {
+                console.error("Failed to fetch from OpenWeather API:", error.message);
+                res.status(500).json({ error: "Failed to fetch weather data" });
+            }
+        }
     });
+});
 
-    ws.on('close', () => {
-        console.log('Client disconnected.');
-        redis.disconnect();
+app.delete('/cache', (req, res) => {
+    const city = req.query.city;
+
+    redisClient.del(city, (err, reply) => {
+        if (err) {
+            console.error("Error clearing cache:", err);
+            res.status(500).json({ error: "Failed to clear cache" });
+            return;
+        }
+        
+        if (reply === 1) {
+            console.log(Cache for {city} cleared);
+            res.json({ message: Cache for {city} cleared });
+        } else {
+            console.log(No cache found for {city});
+            res.status(404).json({ message: No cache found for {city} });
+        }
     });
-}); */}
-                        </code>
-                    </pre>
-                </div>
-            )}
-        </div>
-    );
-
-    `}
-    </code>
-</pre>
-</div>
+});
+    //////////////////////////////////////////////;`}
+            </code>
+        </pre>
+    </div>
 )}
+</div>
 </div>
 );
 }

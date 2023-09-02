@@ -80,42 +80,66 @@ const toggleCode = () => {
         }
     };
 
-    return (
-        <div>
-            <h3>Add Element to Sorted Set</h3>
-            <div>
-                <input style={{ fontSize: '20px'}} value={element} onChange={(e) => setElement(e.target.value)} placeholder="Enter element" />
-                <input style={{ fontSize: '20px'}} type="number" value={score} onChange={(e) => setScore(e.target.value)} placeholder="Enter score" />
-                <button onClick={addElementHandler}>Add Element</button>
-            </div>
+   // New styles
+   const inputStyle = {
+    padding: '10px',
+    borderRadius: '5px',
+    margin: '0 10px 20px 0',
+    fontSize: '18px',
+    width: 'calc(50% - 10px)'
+};
 
-            <h3> Update Score of an Element</h3>
-            <div>
-                <select style={{ fontSize: '20px'}} value={selectedElement} onChange={(e) => {
-                    setSelectedElement(e.target.value);
-                    const matchedElement = elements.find(el => el.element === e.target.value);
-                    if (matchedElement) {
-                        setSelectedElementScore(matchedElement.score);
-                    }
-                }}>
-                    <option value="">Select an element</option>
-                    {elements.map(el => <option key={el.element} value={el.element}>{el.element}</option>)}
-                </select>
-                <input style={{ fontSize: '20px'}} type="number" value={selectedElementScore} onChange={(e) => setSelectedElementScore(e.target.value)} placeholder="Enter new score" />
-                <button onClick={updateScoreHandler}>Update Score</button>
-            </div>
+const buttonStyle = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3498db',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer'
+};
 
-            <h3> Delete an Element</h3>
+const titleStyle = {
+    borderBottom: '2px solid #3498db',
+    paddingBottom: '10px',
+    marginTop: '20px'
+};
+
+return (
+    <div>
+        <h3 style={titleStyle}>Add Element to Sorted Set</h3>
         <div>
-            <select style={{ fontSize: '20px'}} value={elementToDelete} onChange={(e) => setElementToDelete(e.target.value)}>
+            <input style={inputStyle} value={element} onChange={(e) => setElement(e.target.value)} placeholder="Enter element" />
+            <input style={{ ...inputStyle, width: 'calc(40% - 10px)' }} type="number" value={score} onChange={(e) => setScore(e.target.value)} placeholder="Enter score" />
+            <button style={buttonStyle} onClick={addElementHandler}>Add Element</button>
+        </div>
+
+        <h3 style={titleStyle}>Update Score of an Element</h3>
+        <div>
+            <select style={inputStyle} value={selectedElement} onChange={(e) => {
+                setSelectedElement(e.target.value);
+                const matchedElement = elements.find(el => el.element === e.target.value);
+                if (matchedElement) {
+                    setSelectedElementScore(matchedElement.score);
+                }
+            }}>
+                <option value="">Select an element</option>
+                {elements.map(el => <option key={el.element} value={el.element}>{el.element}</option>)}
+            </select>
+            <input style={{ ...inputStyle, width: 'calc(40% - 10px)' }} type="number" value={selectedElementScore} onChange={(e) => setSelectedElementScore(e.target.value)} placeholder="Enter new score" />
+            <button style={buttonStyle} onClick={updateScoreHandler}>Update Score</button>
+        </div>
+
+        <h3 style={titleStyle}>Delete an Element</h3>
+        <div>
+            <select style={inputStyle} value={elementToDelete} onChange={(e) => setElementToDelete(e.target.value)}>
                 <option value="">Select an element to delete</option>
                 {elements.map(el => <option key={el.element} value={el.element}>{el.element}</option>)}
             </select>
-            <button  onClick={deleteElementHandler}>Delete Element</button>
+            <button style={buttonStyle} onClick={deleteElementHandler}>Delete Element</button>
         </div>
 
-            <h3> Elements Ranked by Score</h3>
-            <table className="ranking-table" style={{ width: '100%'}} >
+        <h3 style={titleStyle}>Elements Ranked by Score</h3>
+        <table className="ranking-table" style={{ width: '100%'}} >
     <thead>
         <tr>
             <th style={{ fontSize: '20px'}}>Rank</th>
@@ -133,18 +157,19 @@ const toggleCode = () => {
         ))}
     </tbody>
 </table>
-{/* Show/Hide Code button */}
-<div style={{ width: 'auto', display: 'flex', justifyContent: 'flex-start', marginTop: '10px' }}>
-        <button className="code-button" onClick={toggleCode} style={{ flex: 1 }}>
-          {showCode ? "Hide the Code" : "Show the Code"}
-        </button>
+
+  {/* Show/Hide Code button */}
+  <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+              {showCode ? "Hide the Code" : "Show the Code"}
+          </button>
       </div>
-  
+
       {showCode && (
-        <div className="code-container" style={{ marginTop: '10px', width: '100%'}}>
-          <pre>
-            <code style={{ marginTop: '10px',width: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'  }}>
-                            {`
+    <div className="code-container" style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>
+        <pre style={{ padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', background: '#f7f7f7' }}>
+            <code>
+{`//////////////////////////////////////////////// Sorted Set counter
 ///Add Element to the Sorted Set
 app.post('/addElement', (req, res) => {
     const { element, score } = req.body;
@@ -199,7 +224,6 @@ app.get('/getRankedElements', (req, res) => {
     });
 });
 
-///Delete an Element
 app.delete('/deleteElement', (req, res) => {
     const { element } = req.body;
 
@@ -211,7 +235,7 @@ app.delete('/deleteElement', (req, res) => {
     });
 });
 
-///Fetch Ranked Elements for the Table
+
 app.get('/getRanking', async (req, res) => {
     try {
         const ranking = await getRankingFromRedis();
@@ -240,16 +264,18 @@ const getRankingFromRedis = async () => {
     });
 };
 
-                            `}
-                        </code>
-                    </pre>
-                </div>
-            )}
-        </div>
-    );
+
+//////////////////////////////////////////////`}
+            </code>
+        </pre>
+    </div>
+)}
+
+
+  </div>
+);
+
 }
 
+
 export default CounterSS;
-
-
-
