@@ -75,6 +75,8 @@ body, html {
   background-color: #cecece;  /* Lightened main background */
 }
 
+
+
 .main-content {
   flex: 3;
   overflow-y: auto;
@@ -98,16 +100,17 @@ body, html {
 }
 
 .main-title {
-  font-size: 70px;
+  font-size: 50px;
   text-align: center;
-  margin: 25px 0;
+  margin: auto;
   color: #faf9f9;
   border-radius: 15px;
-  width: 100%;
+  width: fit-content;
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #c41717;
+  background-color: #c21818;
+  padding: 10px;
 }
 
 /* Additional Styles */

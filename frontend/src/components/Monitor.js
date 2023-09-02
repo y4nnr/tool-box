@@ -69,7 +69,7 @@ const toggleCode = () => {
 
     return (
         <div>
-        <h3 style={titleStyle}>Output of the Redis Monitor Command</h3>
+        <h3 style={titleStyle}>Redis Monitor Command Output</h3>
    
         <div>
             <div className="terminal" style={{ width: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>

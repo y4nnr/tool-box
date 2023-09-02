@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="main-app-container">
 
-      <h1 className="main-title">REDIS DEMO</h1>
+      <h1 className="main-title"> REDIS DEMO </h1>
       <div style={{ width: '100%' }}>
           <hr className="main-separator" />
       </div>
@@ -56,9 +56,6 @@ function App() {
           <div className="main-component-section">
             <h1 className="main-component-title">SHOPPING CART</h1>
             <Cart selectedSeats={selectedSeats} onSeatsSelected={handleSeatsSelected} />
-          </div>
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
-            <hr className="main-separator" />
           </div>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
             <hr className="main-separator" />
