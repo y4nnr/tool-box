@@ -652,16 +652,65 @@ app.get('/getIntersectionUsers', (req, res) => {
 app.post('/api/storeCoordinates', async (req, res) => {
     try {
       const { lat, lng } = req.body;
-      // Add the coordinates to Redis geospatial index
-      await client.geoadd('locations', lng, lat, 'MyLocation'); // You can generate a unique id for each location.
-      res.json({ message: 'Coordinates stored successfully.' });
+  
+      await new Promise((resolve, reject) => {
+        client.zrem('rentacar', 'MyLocation', (err, reply) => {
+            if(err) reject(err);
+            else resolve(reply);
+        });
+    });
+    
+      // Add the new location to Redis geospatial index
+      const newLocationName = 'MyLocation';
+      await client.geoadd('locations', lng, lat, newLocationName);
+
+      // Add the same location to Redis geospatial index for 'rentacar'
+      await client.geoadd('rentacar', lng, lat, newLocationName);
+
+              // Retrieve items within a radius of 10km in 'rentacar' around the new location
+              const nearbyItems = await new Promise((resolve, reject) => {
+                client.send_command('GEOSEARCH', [
+                    'rentacar', 
+                    'FROMMEMBER', 'MyLocation', 
+                    'BYRADIUS', 10, 'km', 
+                    'WITHDIST'
+                ], (err, reply) => {
+                    if (err) reject(err);
+                    else resolve(reply);
+                });
+            });
+  
+      // Retrieve all location names and scores from 'locations'
+      const results = await client.zrange('locations', 0, -1, 'WITHSCORES');
+  
+      // Extract just the names, filtering out scores
+      const locationNames = results.filter((_, index) => index % 2 === 0);
+  
+      const distances = [];
+  
+      for (let name of locationNames) {
+        // Skip calculating distance with itself
+        if (name !== newLocationName) {
+          const distance = await client.geodist('locations', newLocationName, name, 'km');
+          distances.push({
+            location: name,
+            distance: parseFloat(distance).toFixed(2) // Keep only 2 decimal places for cleaner output
+          });
+        }
+      }
+  
+      // Send distances and nearbyItems in response
+      res.json({ 
+        message: 'Coordinates stored successfully.', 
+        distances,
+        nearbyItems
+      });
+  
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Failed to store coordinates.' });
     }
-  });
-
-
+});
 ////////////////////////////////////////////// 
 
 app.listen(PORT, () => {
