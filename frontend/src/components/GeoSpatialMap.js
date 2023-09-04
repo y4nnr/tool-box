@@ -168,7 +168,7 @@ const wrapperStyle = {
         <table className="ranking-table" style={{ width: '100%'}} >
         <thead>
                 <tr>
-                  <th style={{ fontSize: '20px', width: '70%' }}>Name</th>
+                  <th style={{ fontSize: '20px', width: '70%' }}>Random Places</th>
                   <th style={{ fontSize: '20px', width: '70%' }}>Distance (km)</th>
                 </tr>
               </thead>
@@ -190,7 +190,7 @@ const wrapperStyle = {
             <table className="ranking-table" style={{ width: '100%' }}>
               <thead>
                 <tr>
-                  <th style={{ fontSize: '20px', width: '70%' }}>Name</th>
+                  <th style={{ fontSize: '20px', width: '70%' }}>Nearby Points of Interest</th>
                   <th style={{ fontSize: '20px', width: '70%'  }}>Distance (km)</th>
                 </tr>
               </thead>
