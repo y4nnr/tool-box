@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUsers } from './UserContext';
+import Intersection from './Intersection'; // Import the Intersection component
+
 
 const titleStyle = {
     borderBottom: '2px solid #3498db',
@@ -48,6 +50,7 @@ const buttonStyleCode = {
 
 function Users() {
     const { users, setUsers, onlineUsers, setOnlineUsers } = useUsers();
+    const [onlinePremiumUsers, setOnlinePremiumUsers] = useState([]); // State for online premium users
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -103,11 +106,15 @@ const toggleCode = () => {
                 if (onlineUsers.includes(userId)) {
                     setOnlineUsers(prevOnlineUsers => prevOnlineUsers.filter(id => id !== userId));
                 }
+
+                // Remove the deleted user from onlinePremiumUsers as well
+                setOnlinePremiumUsers(prevOnlinePremiumUsers => prevOnlinePremiumUsers.filter(id => id !== userId));
             }
         } catch (error) {
             console.error("Error deleting user", error);
         }
     };
+    
 
     return (
         <div>

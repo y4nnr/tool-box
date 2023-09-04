@@ -461,7 +461,17 @@ app.post('/users', (req, res) => {
                 return res.status(500).send(err.message);
             }
 
-            res.status(200).send({ username, firstName, lastName, premium, geo, userId });
+            if (premium === "Yes") {
+                client.sadd('user:premium', userId, (err) => {
+                    if (err) {
+                        console.error("Error adding userId to user:premium set: ", err);
+                        return res.status(500).send(err.message);
+                    }
+                    res.status(200).send({ username, firstName, lastName, premium, geo, userId });
+                });
+            } else {
+                res.status(200).send({ username, firstName, lastName, premium, geo, userId });
+            }
         });
     });
 });
@@ -510,6 +520,18 @@ app.get('/users', (req, res) => {
 });
 
 
+app.get('/premiumUsers', (req, res) => {
+    client.smembers('user:premium', (err, premiumUserIds) => {
+        if (err) {
+            console.error("Error fetching premium user IDs from Redis set: ", err);
+            return res.status(500).send(err.message);
+        }
+
+        res.status(200).send(premiumUserIds);
+    });
+});
+
+
 app.delete('/users/:userId', async (req, res) => {
     const userId = req.params.userId;
 
@@ -522,6 +544,9 @@ app.delete('/users/:userId', async (req, res) => {
 
         // Remove that user ID from the 'user:online' SET (if it's there)
         await client.srem('user:online', userId);
+
+        // Remove that user ID from the 'user:premium' SET (if it's there)
+        await client.srem('user:premium', userId);
 
         res.status(200).send({ message: 'User deleted successfully' });
     } catch (error) {
@@ -606,6 +631,18 @@ app.get('/getOnlineUsers', (req, res) => {
         }
         // Here onlineUserIds will contain a list of userIds, not usernames.
         res.status(200).json(onlineUserIds);
+    });
+});
+
+
+app.get('/getIntersectionUsers', (req, res) => {
+    client.sinter('user:online', 'user:premium', (err, intersectionUsers) => {
+        if (err) {
+            console.error("Error fetching intersection users from Redis:", err);
+            return res.status(500).send({ error: err.message });
+        }
+
+        res.status(200).send(intersectionUsers);
     });
 });
 
