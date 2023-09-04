@@ -1,6 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const buttonStyle = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3498db',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px'
+};
+
+const buttonStyleMap = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3498db',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px',
+    fontSize: '24px'
+};
+
+const buttonStyleCode = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3a3a3a',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px'
+};
 
 const SeatingMap = ({ cart, onSeatsSelected }) => {
     const [bitmap, setBitmap] = useState(0);
@@ -53,7 +83,7 @@ const toggleCode = () => {
         } else if (totalSelected === 4) {
             return '🔒';  // Lock for unselected when 4 are selected
         } else {
-            return '💺';  // Regular seat emoji
+            return '🪑';  // Regular seat emoji
         }
     };
 
@@ -96,7 +126,7 @@ const toggleCode = () => {
                         const isSeatInCart = cart && cart[seatIdentifier];
                         
                         return (
-                            <button key={index} style={{ fontSize: '24px' }} onClick={() => toggleSeat(index)}>
+                            <button key={index} style={buttonStyleMap} onClick={() => toggleSeat(index)}>
                                 {isSeatInCart ? '💵' : getSeatColor(index)}
                             </button>
                         );
@@ -112,12 +142,12 @@ const toggleCode = () => {
                 </div>
         
                 <div style={{ marginTop: '10px' }}>
-                <button onClick={emptySelection}>Empty Selection</button>
+                <button style={buttonStyle} onClick={emptySelection}>Empty Selection</button>
             </div>
             
                          {/* Show/Hide Code button */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+          <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
               {showCode ? "Hide the Code" : "Show the Code"}
           </button>
       </div>

@@ -46,16 +46,22 @@ body, html {
 
 .main-separator {
   width: 100%;
-  border-top: 5px solid #c41717;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  border-top: 65px solid #7e7c7c;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.main-separator-top {
+  width: 0%;
+  border-top: 0px solid #7e7c7c;
+   border-radius: 15px;
 }
 
 .main-component-title {
   margin: 10px 0;
   font-size: 24px;
   color: #f0f0f0;
-  background-color: #7e7c7c;  /* Adjusted to a slightly lighter shade */
+  background-color: #c41717;  /* Adjusted to a slightly lighter shade */
   padding: 5px 10px;
   border-radius: 5px;
 }
@@ -75,7 +81,25 @@ body, html {
   background-color: #cecece;  /* Lightened main background */
 }
 
+.buttonStyle {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+};
 
+buttonStyleCode {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #30906c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
 
 .main-content {
   flex: 3;
@@ -90,7 +114,7 @@ body, html {
   top: 0;
   overflow-y: auto;
   height: calc(100vh - 70px);
-  padding: 20px;
+  padding: 30px;
   background-color: #cecece;  /* Adjusted to a slightly lighter shade for differentiation */
   color: #000000;
 }

@@ -5,6 +5,27 @@ function Counter() {
   const [inputValue, setInputValue] = useState("");
 <input type="number" value={inputValue} onChange={e => setInputValue(e.target.value)} />
 
+const buttonStyle = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3498db',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px'
+};
+
+const buttonStyleCode = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3a3a3a',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px'
+};
+
+
 // New state for showing or hiding the code
 const [showCode, setShowCode] = useState(false);
 
@@ -54,8 +75,8 @@ return (
 
       {/* Increment and Decrement buttons */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '20px' }}>
-          <button onClick={increment} style={{ padding: '10px 20px', fontSize: '18px' }}>Increment</button>
-          <button onClick={decrement} style={{ padding: '10px 20px', fontSize: '18px' }}>Decrement</button>
+          <button onClick={increment} style={buttonStyle}>Increment</button>
+          <button onClick={decrement} style={buttonStyle}>Decrement</button>
       </div>
 
       {/* Set Counter Manually */}
@@ -67,13 +88,13 @@ return (
         placeholder="Set Counter Value"
         style={{ fontSize: '20px', textAlign: 'center', width: '60%', padding: '10px' }}
     />
-    <button onClick={setCounter} style={{ padding: '10px 20px' }}>Set Counter Value</button>
+    <button onClick={setCounter} style={buttonStyle}>Set Counter Value</button>
 </div>
 
 
       {/* Show/Hide Code button */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+          <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
               {showCode ? "Hide the Code" : "Show the Code"}
           </button>
       </div>

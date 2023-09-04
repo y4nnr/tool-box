@@ -7,6 +7,10 @@ import Monitor from './components/Monitor';
 import ApiCaching from './components/ApiCaching';
 import SeatingMap from './components/SeatingMap';
 import Cart from './components/Cart';
+import Users from './components/Users';
+import Intersection from './components/Intersection';
+import { UserProvider } from './components/UserContext';
+
 
 function App() {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -20,7 +24,7 @@ function App() {
 
       <h1 className="main-title"> REDIS DEMO </h1>
       <div style={{ width: '100%' }}>
-          <hr className="main-separator" />
+          <hr className="main-separator-top" />
       </div>
       <div className="app-container">
         {/* Main content on the left */}
@@ -57,6 +61,22 @@ function App() {
             <h1 className="main-component-title">SHOPPING CART</h1>
             <Cart selectedSeats={selectedSeats} onSeatsSelected={handleSeatsSelected} />
           </div>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
+            <hr className="main-separator" />
+          </div>
+          <UserProvider>
+          <div className="main-component-section">
+            <h1 className="main-component-title">USER DIRECTORY</h1>
+            <Users />
+          </div>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
+            <hr className="main-separator" />
+          </div>
+          <div className="main-component-section">
+            <h1 className="main-component-title">INTERSECTIONS</h1>
+            <Intersection />
+          </div>
+          </UserProvider>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
             <hr className="main-separator" />
           </div>

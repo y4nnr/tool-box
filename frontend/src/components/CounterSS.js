@@ -98,6 +98,16 @@ const buttonStyle = {
     cursor: 'pointer'
 };
 
+const buttonStyleCode = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3a3a3a',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px'
+};
+
 const titleStyle = {
     borderBottom: '2px solid #3498db',
     paddingBottom: '10px',
@@ -135,7 +145,7 @@ return (
                 <option value="">Select an element to delete</option>
                 {elements.map(el => <option key={el.element} value={el.element}>{el.element}</option>)}
             </select>
-            <button style={buttonStyle} onClick={deleteElementHandler}>Delete Element</button>
+            <button style={buttonStyle} onClick={deleteElementHandler}>Delete</button>
         </div>
 
         <h3 style={titleStyle}>Elements Ranked by Score</h3>
@@ -160,7 +170,7 @@ return (
 
   {/* Show/Hide Code button */}
   <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+          <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
               {showCode ? "Hide the Code" : "Show the Code"}
           </button>
       </div>

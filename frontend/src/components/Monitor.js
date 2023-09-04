@@ -14,6 +14,16 @@ const titleStyle = {
 
 };
 
+const buttonStyleCode = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3a3a3a',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px'
+};
+
 function Monitor() {
     console.log("Monitor rendered");  // <-- Add this line here
 
@@ -80,7 +90,7 @@ const toggleCode = () => {
             
  {/* Show/Hide Code button */}
  <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+          <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
               {showCode ? "Hide the Code" : "Show the Code"}
           </button>
       </div>

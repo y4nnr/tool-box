@@ -2,11 +2,31 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Cart.css';
 
+const buttonStyle = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3498db',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px'
+};
+
 
 const titleStyle = {
     borderBottom: '2px solid #3498db',
     paddingBottom: '10px',
     marginTop: '20px'
+};
+
+const buttonStyleCode = {
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#3a3a3a',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px'
 };
 
 
@@ -92,12 +112,12 @@ const toggleCode = () => {
             <div>
                 Total Price: ${totalPrice.toFixed(2)}
             </div>
-            <button className="" onClick={addToCart}>Add to Cart</button>
-            <button className="" onClick={emptyCart}>Empty Cart</button>            
+            <button style={buttonStyle} className="" onClick={addToCart}>Add to Cart</button>
+            <button style={buttonStyle} className="" onClick={emptyCart}>Empty Cart</button>            
         </div>
                                 {/* Show/Hide Code button */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+          <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
               {showCode ? "Hide the Code" : "Show the Code"}
           </button>
       </div>

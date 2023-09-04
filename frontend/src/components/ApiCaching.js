@@ -93,6 +93,16 @@ const toggleCode = () => {
         marginLeft: '10px'
     };
 
+    const buttonStyleCode = {
+        padding: '10px 15px',
+        borderRadius: '5px',
+        backgroundColor: '#3a3a3a',
+        color: 'white',
+        border: 'none',
+        cursor: 'pointer',
+        marginRight: '10px'
+    };
+
     return (
         <div>
             <h3 style={titleStyle}>Weather for {weather.name}</h3>
@@ -114,7 +124,7 @@ const toggleCode = () => {
             
            {/* Show/Hide Code button */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <button className="code-button" onClick={toggleCode} style={{ padding: '10px 20px', fontSize: '18px' }}>
+          <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
               {showCode ? "Hide the Code" : "Show the Code"}
           </button>
       </div>

@@ -57,6 +57,16 @@ button {
     font-size: 18px;
 }
 
+buttonStyleCode {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #30906c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
 button:hover {
     background-color: #0056b3;
 }

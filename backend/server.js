@@ -11,6 +11,8 @@ const wss = new WebSocket.Server({ server });
 const socketIo = require('socket.io');
 const io = socketIo(server);
 const axios = require('axios');
+const { promisify } = require('util');
+const { v4: uuidv4 } = require('uuid');
 
 const OPENWEATHER_API_KEY = '5b9b6efb168475e2f3664540adf20ba6';
 const WEATHER_TTL = 600; // 10 minutes in seconds
@@ -26,6 +28,20 @@ const client = redis.createClient({
     port: 6379
 });
 
+
+// Manually define the RedisJSON commands for our redis client
+client.json_set = function(key, path, json, callback) {
+    client.send_command('JSON.SET', [key, path, json], callback);
+  };
+  client.json_get = function(key, path, callback) {
+    client.send_command('JSON.GET', [key, path], callback);
+  };
+  
+  const jsonSetAsync = promisify(client.json_set).bind(client);
+  const jsonGetAsync = promisify(client.json_get).bind(client);
+  const saddAsync = promisify(client.sadd).bind(client);
+  const smembersAsync = promisify(client.smembers).bind(client);
+
 // Create a new Redis client for monitoring
 const redisClient = new redis();
 
@@ -36,7 +52,7 @@ const SEAT_PRICE = 5;  // Assuming each seat costs $5
 
 // Use body-parser to parse JSON bodies
 app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());  // <-- Add this line to enable CORS for all routes
 
 client.on('error', (err) => {
@@ -422,6 +438,174 @@ app.post('/emptyCart', (req, res) => {
             return res.status(500).send('Server error.');
         }
         res.status(200).send('Cart emptied successfully.');
+    });
+});
+
+
+////////////////////////////////////////////// Users
+
+// Endpoint to create a user
+app.post('/users', (req, res) => {
+    const { username, firstName, lastName, premium, geo } = req.body;  // Updated destructuring
+    const userId = uuidv4();
+
+    client.json_set(userId, '.', JSON.stringify({ username, firstName, lastName, premium, geo }), (err) => {  // Updated JSON structure
+        if (err) {
+            console.error("Error storing user data in RedisJSON: ", err);
+            return res.status(500).send(err.message);
+        }
+
+        client.sadd('users', userId, (err) => {
+            if (err) {
+                console.error("Error adding userId to Redis set: ", err);
+                return res.status(500).send(err.message);
+            }
+
+            res.status(200).send({ username, firstName, lastName, premium, geo, userId });
+        });
+    });
+});
+
+
+
+app.get('/users', (req, res) => {
+    client.smembers('users', (err, userIds) => {
+        if (err) {
+            console.error("Error fetching userIds from Redis set: ", err);
+            return res.status(500).send(err.message);
+        }
+
+        if (userIds.length === 0) {
+            return res.status(200).send([]);
+        }
+
+        const users = [];
+        let pending = userIds.length;
+
+        for (let userId of userIds) {
+            client.json_get(userId, '.', (err, userJson) => {
+                if (err) {
+                    console.error("Error fetching user data from RedisJSON for userId:", userId, err);
+                    return res.status(500).send(err.message);
+                }
+
+                console.log(`User data for ID ${userId}:`, userJson);  // Let's see what's being fetched
+
+                const user = JSON.parse(userJson);
+                
+                if (user) {  // Check if user isn't null or undefined
+                    user.userId = userId;
+                    users.push(user);
+                } else {
+                    console.error(`Invalid user data for ID ${userId}`);
+                }
+
+                pending--;
+                if (pending === 0) {
+                    res.status(200).send(users);
+                }
+            });
+        }
+    });
+});
+
+
+app.delete('/users/:userId', async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        // Delete the user JSON object from Redis
+        await client.del(userId);
+
+        // Remove that user ID from the 'users' SET
+        await client.srem('users', userId);
+
+        // Remove that user ID from the 'user:online' SET (if it's there)
+        await client.srem('user:online', userId);
+
+        res.status(200).send({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).send({ error: 'Failed to delete user' });
+    }
+});
+
+
+
+////////////////////////////////////////////// Intersections
+// Get all users
+app.get('/getUsers', (req, res) => {
+    client.smembers('users', (err, userIds) => {
+        if (err) {
+            console.error('Error fetching user IDs from Redis:', err.message);
+            return res.json({error: 'Failed to fetch users.'});
+        }
+
+        const usersPromises = userIds.map(id => {
+            return new Promise((resolve, reject) => {
+                client.send_command('JSON.GET', [id], (err, userJson) => {
+                    if (err) return reject(err);
+                    resolve(JSON.parse(userJson));
+                });
+            });
+        });
+
+        Promise.all(usersPromises)
+            .then(users => res.json(users))
+            .catch(err => {
+                console.error('Error fetching user details from Redis:', err.message);
+                return res.json({error: 'Failed to fetch users.'});
+            });
+    });
+});
+
+
+
+// Set user online
+app.post('/userOnline', async (req, res) => {
+    try {
+        console.log("Received in /userOnline:", req.body);
+        const { userId } = req.body; // Changed from username to userId
+        if (!userId) {
+            console.error('UserID not provided.');
+            return res.status(400).json({ error: 'UserID not provided.' });
+        }
+        await client.sadd('user:online', userId); 
+        res.json({ status: 'User set to online.' });
+    } catch (error) {
+        console.error('Failed to set user online:', error);
+        res.status(500).json({ error: 'Failed to set user online.' });
+    }
+});
+
+
+// Set user offline
+app.post('/userOffline', async (req, res) => {
+    try {
+        const { userId } = req.body; // Changed from username to userId
+        if (!userId) {
+            console.error('UserID not provided.');
+            return res.status(400).json({ error: 'UserID not provided.' });
+        }
+        await client.srem('user:online', userId);
+        res.json({ status: 'User set to offline.' });
+    } catch (error) {
+        console.error('Error setting user offline:', error.message);
+        res.status(500).json({error: 'Failed to set user offline.'});
+    }
+});
+
+
+
+// Get all online users
+app.get('/getOnlineUsers', (req, res) => {
+    client.smembers('user:online', (err, onlineUserIds) => {
+        if (err) {
+            console.error('Error fetching online user IDs from Redis:', err.message);
+            return res.status(500).json({ error: 'Failed to fetch online users.' });
+        }
+        // Here onlineUserIds will contain a list of userIds, not usernames.
+        res.status(200).json(onlineUserIds);
     });
 });
 
