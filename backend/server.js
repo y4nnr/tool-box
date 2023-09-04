@@ -647,6 +647,21 @@ app.get('/getIntersectionUsers', (req, res) => {
 });
 
 
+////////////////////////////////////////////// Geo
+
+app.post('/api/storeCoordinates', async (req, res) => {
+    try {
+      const { lat, lng } = req.body;
+      // Add the coordinates to Redis geospatial index
+      await client.geoadd('locations', lng, lat, 'MyLocation'); // You can generate a unique id for each location.
+      res.json({ message: 'Coordinates stored successfully.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Failed to store coordinates.' });
+    }
+  });
+
+
 ////////////////////////////////////////////// 
 
 app.listen(PORT, () => {

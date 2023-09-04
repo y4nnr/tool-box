@@ -1,4 +1,5 @@
 /* General Styles */
+@import "~leaflet/dist/leaflet.css";
 
 * {
   box-sizing: border-box;

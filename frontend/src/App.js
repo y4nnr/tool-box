@@ -10,6 +10,9 @@ import Cart from './components/Cart';
 import Users from './components/Users';
 import Intersection from './components/Intersection';
 import { UserProvider } from './components/UserContext';
+import GeoSpatialMap from './components/GeoSpatialMap';
+import 'leaflet/dist/leaflet.css';
+
 
 
 function App() {
@@ -77,6 +80,13 @@ function App() {
             <Intersection />
           </div>
           </UserProvider>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
+            <hr className="main-separator" />
+          </div>
+          <div className="main-component-section">
+            <h1 className="main-component-title">GEOSPATIAL</h1>
+            <GeoSpatialMap />
+          </div>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
             <hr className="main-separator" />
           </div>
