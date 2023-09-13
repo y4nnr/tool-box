@@ -42,12 +42,12 @@ body, html {
 
 .main-app-container {
   padding: 20px;
-  background-color: #7e7c7c;  /* Lightened main background */
+  background-color: #444444;  /* Lightened main background */
 }
 
 .main-separator {
   width: 100%;
-  border-top: 65px solid #7e7c7c;
+  border-top: 65px solid #cecece;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -61,8 +61,8 @@ body, html {
 .main-component-title {
   margin: 10px 0;
   font-size: 24px;
-  color: #f0f0f0;
-  background-color: #c41717;  /* Adjusted to a slightly lighter shade */
+  color: #cecece;
+  background-color: #444444;  /* Adjusted to a slightly lighter shade */
   padding: 5px 10px;
   border-radius: 5px;
 }
@@ -128,13 +128,13 @@ buttonStyleCode {
   font-size: 50px;
   text-align: center;
   margin: auto;
-  color: #faf9f9;
+  color: #cecece;
   border-radius: 15px;
   width: fit-content;
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #c21818;
+  background-color: #444444;
   padding: 10px;
 }
 

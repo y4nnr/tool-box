@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="main-app-container">
 
-      <h1 className="main-title"> REDIS DEMO </h1>
+      <h1 className="main-title"> Redis use cases</h1>
       <div style={{ width: '100%' }}>
           <hr className="main-separator-top" />
       </div>

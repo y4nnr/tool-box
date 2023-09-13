@@ -91,8 +91,9 @@ const toggleCode = () => {
 
     return (
         <div>
+            <h3 style={titleStyle}>Your Cart </h3>
         <div className="cart-container" style={{ width: '100%', }}>
-            <h3 style={titleStyle}>Your Cart </h3><p>(Limited to 4 seats)</p>
+            <p className="cart-item">(Limited to 4 seats)</p>
               {/* Added styled header */}
             
             <ul>

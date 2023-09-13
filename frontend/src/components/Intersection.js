@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaUserCircle } from 'react-icons/fa';
 import { useUsers } from './UserContext';
 
 function Intersection() {
     const { users, setUsers, onlineUsers, setOnlineUsers } = useUsers();
     const [onlinePremiumUsers, setOnlinePremiumUsers] = useState([]); // State for online premium users
+    
+    // New state for showing or hiding the code
+const [showCode, setShowCode] = useState(false);
 
+// Function to toggle the visibility of the code block
+const toggleCode = () => {
+    setShowCode(prevState => !prevState);
+}
     useEffect(() => {
         // Fetch users from server
         axios.get('http://localhost:3001/getUsers')
@@ -128,10 +134,20 @@ function Intersection() {
         color: 'white',
         borderRadius: '5px',
     };
+    const buttonStyleCode = {
+        padding: '10px 15px',
+        borderRadius: '5px',
+        backgroundColor: '#3a3a3a',
+        color: 'white',
+        border: 'none',
+        cursor: 'pointer',
+        marginRight: '10px'
+    };
 
  
 
     return (
+        <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2%' }}>
             <div style={sectionStyle}>
                 <h3 style={titleStyle}>Registered Users</h3>
@@ -175,7 +191,57 @@ function Intersection() {
                     })}
                 </ul>
             </div>
+            </div>
+                  {/* Show/Hide Code button */}
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
+              {showCode ? "Hide the Code" : "Show the Code"}
+          </button>
+      </div>
+
+      {showCode && (
+    <div className="code-container" style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>
+        <pre style={{ padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', background: '#f7f7f7' }}>
+            <code>
+{`////////////////////////////////////////////// String counter
+// Fetch the counter value from Redis
+app.get('/counter', (req, res) => {
+    client.get('counter', (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to fetch counter' });
+        res.json({ value: parseInt(reply || '0', 10) });
+    });
+});
+
+// Increment the counter using Redis INCR
+app.post('/increment', (req, res) => {
+    client.incr('counter', (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to increment counter' });
+        res.json({ value: parseInt(reply, 10) });
+    });
+});
+
+// Decrement the counter using Redis DECR
+app.post('/decrement', (req, res) => {
+    client.decr('counter', (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to decrement counter' });
+        res.json({ value: parseInt(reply, 10) });
+    });
+});
+
+// Set counter value in Redis
+app.post('/setCounter', (req, res) => {
+    const value = req.body.value;
+    client.set('counter', value, (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to set counter' });
+        res.json({ value: parseInt(value, 10) });
+    });
+});`}
+            </code>
+        </pre>
+    </div>
+)}
         </div>
+        
     );
 }
 

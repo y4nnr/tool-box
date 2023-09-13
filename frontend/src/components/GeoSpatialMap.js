@@ -48,14 +48,28 @@ const wrapperStyle = {
     marginLeft: '20px' // This provides some space from the left edge
 };
 
-
-  
+const buttonStyleCode = {
+  padding: '10px 15px',
+  borderRadius: '5px',
+  backgroundColor: '#3a3a3a',
+  color: 'white',
+  border: 'none',
+  cursor: 'pointer',
+  marginRight: '10px'
+};
 
   function GeoSpatialMap() {
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [distances, setDistances] = useState(null);  // Store distances
     const [nearbyItems, setNearbyItems] = useState(null); // Updated state
 
+      // New state for showing or hiding the code
+const [showCode, setShowCode] = useState(false);
+
+// Function to toggle the visibility of the code block
+const toggleCode = () => {
+    setShowCode(prevState => !prevState);
+}
   
     const handleMapClick = (event) => {
       setSelectedLocation({
@@ -129,6 +143,7 @@ const wrapperStyle = {
     };
     return (
         <div>
+          <div>
         <h3 style={titleStyle}>Select Your Location</h3>
 
       <LoadScript googleMapsApiKey="AIzaSyAuNDT3WDS6bqTHVfW563NKP9HIPQ1E2Dc">
@@ -209,6 +224,55 @@ const wrapperStyle = {
           )}
         </div>
       </LoadScript>
+      </div>
+                  {/* Show/Hide Code button */}
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
+              {showCode ? "Hide the Code" : "Show the Code"}
+          </button>
+      </div>
+
+      {showCode && (
+    <div className="code-container" style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>
+        <pre style={{ padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', background: '#f7f7f7' }}>
+            <code>
+{`////////////////////////////////////////////// String counter
+// Fetch the counter value from Redis
+app.get('/counter', (req, res) => {
+    client.get('counter', (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to fetch counter' });
+        res.json({ value: parseInt(reply || '0', 10) });
+    });
+});
+
+// Increment the counter using Redis INCR
+app.post('/increment', (req, res) => {
+    client.incr('counter', (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to increment counter' });
+        res.json({ value: parseInt(reply, 10) });
+    });
+});
+
+// Decrement the counter using Redis DECR
+app.post('/decrement', (req, res) => {
+    client.decr('counter', (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to decrement counter' });
+        res.json({ value: parseInt(reply, 10) });
+    });
+});
+
+// Set counter value in Redis
+app.post('/setCounter', (req, res) => {
+    const value = req.body.value;
+    client.set('counter', value, (err, reply) => {
+        if (err) return res.status(500).json({ error: 'Failed to set counter' });
+        res.json({ value: parseInt(value, 10) });
+    });
+});`}
+            </code>
+        </pre>
+    </div>
+)}
       </div>
     );
   }
