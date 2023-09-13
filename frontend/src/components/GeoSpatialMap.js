@@ -154,9 +154,12 @@ const toggleCode = () => {
     zoom={10}
     onClick={handleMapClick}
     options={{
-        streetViewControl: false,
-        fullscreenControl: false
-    }}
+      streetViewControl: false,
+      fullscreenControl: false,
+      mapTypeId: 'hybrid',  // Use 'hybrid' to show satellite view with labels
+      mapTypeControl: false  // Disable the map type control buttons
+  }}
+  
 >
     {selectedLocation && <Marker position={selectedLocation} />}
 </GoogleMap>

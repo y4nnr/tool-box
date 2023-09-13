@@ -14,12 +14,12 @@ const buttonStyle = {
 const buttonStyleMap = {
     padding: '10px 15px',
     borderRadius: '5px',
-    backgroundColor: '#3498db',
+    backgroundColor: '#F6F6F6',
     color: 'white',
     border: 'none',
     cursor: 'pointer',
     marginRight: '10px',
-    fontSize: '24px'
+    fontSize: '28px'
 };
 
 const buttonStyleCode = {
@@ -83,7 +83,7 @@ const toggleCode = () => {
         } else if (totalSelected === 4) {
             return '🔒';  // Lock for unselected when 4 are selected
         } else {
-            return '🪑';  // Regular seat emoji
+            return '💺';  // Regular seat emoji
         }
     };
 
