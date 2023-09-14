@@ -11,20 +11,34 @@ const buttonStyle = {
     backgroundColor: '#3498db',
     color: 'white',
     border: 'none',
-    cursor: 'pointer',
-    marginRight: '10px'
+    cursor: 'pointer'
 };
 
-const buttonStyleCode = {
-    padding: '10px 15px',
+const buttonStyleFa = {
+    padding: '3px 6px',
     borderRadius: '5px',
-    backgroundColor: '#3a3a3a',
+    backgroundColor: '#3498DB',
     color: 'white',
     border: 'none',
     cursor: 'pointer',
     marginRight: '10px'
 };
 
+const buttonStyleCode = {
+    padding: '5px 4px',
+    borderRadius: '5px',
+    backgroundColor: '#3a3a3a',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginRight: '10px',
+    marginBottom: '1px'
+};
+const titleStyle = {
+    borderBottom: '2px solid #3498db',
+    paddingBottom: '10px',
+    marginTop: '20px'
+};
 
 // New state for showing or hiding the code
 const [showCode, setShowCode] = useState(false);
@@ -63,20 +77,22 @@ const toggleCode = () => {
 
 
 return (
+    <div>
+    <h3 style={titleStyle}>Increases or Decrease the Value of a Counter</h3>
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
 
       {/* Counter Display */}
       <div style={{ fontSize: '24px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
           <div class="card" style={{ padding: '10px 20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-              <p style={{ marginRight: '10px' }}><i class="fa fa-user"></i></p>
+              <p style={{ marginRight: '10px' }}><i class="fa fa-calculator"></i></p>
               Count: {count}
           </div>
       </div>
 
       {/* Increment and Decrement buttons */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '20px' }}>
-          <button onClick={increment} style={buttonStyle}>Increment</button>
-          <button onClick={decrement} style={buttonStyle}>Decrement</button>
+          <button onClick={increment} style={buttonStyleFa}><i class="fa fa-plus-square"></i></button>
+          <button onClick={decrement} style={buttonStyleFa}><i class="fa fa-minus-square"></i></button>
       </div>
 
       {/* Set Counter Manually */}
@@ -88,14 +104,12 @@ return (
         placeholder="Set Counter Value"
         style={{ fontSize: '20px', textAlign: 'center', width: '60%', padding: '10px' }}
     />
-    <button onClick={setCounter} style={buttonStyle}>Set Counter Value</button>
+    <button onClick={setCounter} style={buttonStyle}>Validate</button>
 </div>
-
-
       {/* Show/Hide Code button */}
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'right', marginBottom: '1px'}}>
           <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
-              {showCode ? "Hide the Code" : "Show the Code"}
+              {showCode ? <i class="fa fa-code-fork fa-sm"></i> : <i class="fa fa-code-fork fa-sm"></i>}
           </button>
       </div>
 
@@ -135,12 +149,12 @@ app.post('/setCounter', (req, res) => {
         if (err) return res.status(500).json({ error: 'Failed to set counter' });
         res.json({ value: parseInt(value, 10) });
     });
-});`}
-            </code>
-        </pre>
-    </div>
+//////////////////////////////////////////////`}
+    </code>
+ </pre>
+ </div>
 )}
-
+  </div>
 
   </div>
 );

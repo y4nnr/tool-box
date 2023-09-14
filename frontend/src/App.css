@@ -47,7 +47,7 @@ body, html {
 
 .main-separator {
   width: 100%;
-  border-top: 65px solid #cecece;
+  border-top: 1px solid #cecece;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -121,7 +121,7 @@ buttonStyleCode {
 }
 
 .main-component-section {
-  padding: 20px;
+  padding: 0px 20px;
 }
 
 .main-title {

@@ -135,13 +135,14 @@ const toggleCode = () => {
         borderRadius: '5px',
     };
     const buttonStyleCode = {
-        padding: '10px 15px',
+        padding: '5px 4px',
         borderRadius: '5px',
         backgroundColor: '#3a3a3a',
         color: 'white',
         border: 'none',
         cursor: 'pointer',
-        marginRight: '10px'
+        marginRight: '10px',
+        marginBottom: '1px'
     };
 
  
@@ -192,10 +193,10 @@ const toggleCode = () => {
                 </ul>
             </div>
             </div>
-                  {/* Show/Hide Code button */}
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+  {/* Show/Hide Code button */}
+  <div style={{ width: '100%', display: 'flex', justifyContent: 'right', marginBottom: '20px' }}>
           <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
-              {showCode ? "Hide the Code" : "Show the Code"}
+          {showCode ? <i class="fa fa-code-fork fa-sm"></i> : <i class="fa fa-code-fork fa-sm"></i>}
           </button>
       </div>
 

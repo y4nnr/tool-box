@@ -32,7 +32,7 @@ function App() {
       <div className="app-container">
         {/* Main content on the left */}
         <div className="main-content">
-          <div className="main-component-section">
+        <div className="main-component-section">
             <h1 className="main-component-title">COUNTER</h1>
             <Counter />
           </div>
