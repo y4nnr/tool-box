@@ -9,17 +9,21 @@ const WebSocket = require('ws');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 const socketIo = require('socket.io');
-const io = socketIo(server);
+const io = socketIo(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }
+  });
 const axios = require('axios');
 const { promisify } = require('util');
 const { v4: uuidv4 } = require('uuid');
-
+const CHANNEL = 'user:online:chat:channel';
 const OPENWEATHER_API_KEY = '5b9b6efb168475e2f3664540adf20ba6';
 const WEATHER_TTL = 600; // 10 minutes in seconds
 
 
 
-expressWs(app); // This line is crucial
 const PORT = 3001;
 
 ////////////////////////////////////////////// Connect to Redis on 127.0.0.1
@@ -28,6 +32,24 @@ const client = redis.createClient({
     port: 6379
 });
 
+const subscriber = redis.createClient();
+const publisher = redis.createClient();
+
+subscriber.on('connect', function() {
+    console.log('Subscriber connected to Redis');
+});
+
+publisher.on('connect', function() {
+    console.log('Publisher connected to Redis');
+});
+
+subscriber.on("error", function(error) {
+  console.error("Error in Subscriber:", error);
+});
+
+publisher.on("error", function(error) {
+  console.error("Error in Publisher:", error);
+});
 
 // Manually define the RedisJSON commands for our redis client
 client.json_set = function(key, path, json, callback) {
@@ -195,30 +217,6 @@ const getRankingFromRedis = async () => {
 
 
 ////////////////////////////////////////////// Monitor
-// Run Monitor from Redis
-wss.on('connection', (ws) => {
-    console.log('Client connected.');
-
-    const redis = new Redis();
-
-    redis.monitor((err, monitor) => {
-        if (err) throw err;
-
-        console.log('Connected to Redis.');
-
-        monitor.on('monitor', (time, args, source, database) => {
-            console.log(args);  // log monitored commands on server-side
-            ws.send(JSON.stringify(args));  // send commands to frontend
-        });
-    });
-
-    ws.on('close', () => {
-        console.log('Client disconnected.');
-        redis.disconnect();
-    });
-});
-
-
 ////////////////////////////////////////////// API Caching OPENWEATHER
 
 app.get('/weather', async (req, res) => {
@@ -711,9 +709,53 @@ app.post('/api/storeCoordinates', async (req, res) => {
       res.status(500).json({ message: 'Failed to store coordinates.' });
     }
 });
-////////////////////////////////////////////// 
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+//////////////////////////////////////////////
+///////CHAT
+// Redis PubSub setup
+// Redis PubSub setup
+subscriber.subscribe(CHANNEL);
+
+// Listen for messages from the Redis channel globally
+subscriber.on('message', (channel, message) => {
+    // Parse the message string back into an object
+    let parsedMessage;
+    try {
+        parsedMessage = JSON.parse(message);
+    } catch (e) {
+        console.error('Failed to parse message from Redis:', e);
+        return;
+    }
+
+    // Emit the parsed message to all connected clients
+    io.emit('chat message', parsedMessage);
 });
 
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+
+    // Listen for chat messages from the client
+    socket.on('chat message', (msg) => {
+        console.log('Received message via socket.io:', msg); // This should log the message
+    
+        publisher.publish(CHANNEL, JSON.stringify(msg), (err, subscribers) => {
+            if (err) {
+                console.error('Error publishing message:', err);
+                return;
+            }
+            console.log(`Message published to ${subscribers} subscribers.`);
+        });
+    });
+});
+
+
+
+////////////////////////////////////////////// 
+
+server.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

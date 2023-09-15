@@ -11,6 +11,8 @@ import Users from './components/Users';
 import Intersection from './components/Intersection';
 import { UserProvider } from './components/UserContext';
 import GeoSpatialMap from './components/GeoSpatialMap';
+import Chat from './components/Chat';
+import Chats from './components/Chats';
 import 'leaflet/dist/leaflet.css';
 
 
@@ -80,6 +82,13 @@ function App() {
             <Intersection />
           </div>
           </UserProvider>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
+            <hr className="main-separator" />
+          </div>
+          <div className="main-component-section">
+            <h1 className="main-component-title">CHAT APPLICATION</h1>
+            <Chats />
+          </div>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
             <hr className="main-separator" />
           </div>
