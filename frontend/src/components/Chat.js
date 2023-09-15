@@ -35,10 +35,12 @@ const Chat = ({ user, titleStyle }) => {
             padding: '5px 10px',
             borderRadius: '5px',
             marginBottom: '5px',
-            background: '#d2ffd6', // A different color maybe?
+            background: '#43CC47', // A different color maybe?
             marginLeft: 'auto',
             maxWidth: '80%',
             textAlign: 'right',
+            color: 'white',
+            width: 'fit-content',
         },
         chatMessageLeft: {
             padding: '5px 10px',
@@ -48,6 +50,7 @@ const Chat = ({ user, titleStyle }) => {
             marginRight: 'auto',
             maxWidth: '80%',
             textAlign: 'left',
+            width: 'fit-content',
         },
         // ... rest of your styles remain unchanged
     };

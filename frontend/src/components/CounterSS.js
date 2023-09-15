@@ -171,7 +171,7 @@ return (
       {/* Show/Hide Code button */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'right', marginBottom: '1px'}}>
           <button className="code-button" onClick={toggleCode} style={buttonStyleCode}>
-          {showCode ? <i class="fa fa-code-fork fa-sm"></i> : <i class="fa fa-code-fork fa-sm"></i>}
+          {showCode ? 'Hide code' : 'Show code'}
           </button>
       </div>
 
