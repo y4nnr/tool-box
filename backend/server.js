@@ -19,7 +19,7 @@ const axios = require('axios');
 const { promisify } = require('util');
 const { v4: uuidv4 } = require('uuid');
 const CHANNEL = 'user:online:chat:channel';
-const OPENWEATHER_API_KEY = '5b9b6efb168475e2f3664540adf20ba6';
+const OPENWEATHER_API_KEY = '';
 const WEATHER_TTL = 600; // 10 minutes in seconds
 
 
