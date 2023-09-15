@@ -147,7 +147,7 @@ const toggleCode = () => {
           <div>
         <h3 style={titleStyle}>Select Your Location</h3>
 
-      <LoadScript googleMapsApiKey="AIzaSyAuNDT3WDS6bqTHVfW563NKP9HIPQ1E2Dc">
+      <LoadScript googleMapsApiKey="">
         <div style={wrapperStyle}>
         <GoogleMap
     mapContainerStyle={mapContainerStyle}
