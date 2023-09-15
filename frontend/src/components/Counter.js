@@ -84,7 +84,7 @@ return (
       {/* Counter Display */}
       <div style={{ fontSize: '24px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
           <div class="card" style={{ padding: '10px 20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-              <p style={{ marginRight: '10px' }}><i class="fa fa-newspaper-o"></i></p>
+              <p style={{ marginRight: '10px' }}><i class="fa fa-line-chart"></i></p>
               Count: {count}
           </div>
       </div>
