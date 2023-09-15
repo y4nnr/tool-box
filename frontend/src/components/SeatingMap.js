@@ -33,6 +33,12 @@ const buttonStyleCode = {
     marginBottom: '1px'
 };
 
+const titleStyle = {
+    borderBottom: '2px solid #3498db',
+    paddingBottom: '10px',
+    marginTop: '20px'
+};
+
 const SeatingMap = ({ cart, onSeatsSelected }) => {
     const [bitmap, setBitmap] = useState(0);
 
@@ -112,11 +118,7 @@ const toggleCode = () => {
         };
         console.log('Cart:', cart);
 
-        const titleStyle = {
-            borderBottom: '2px solid #3498db',
-            paddingBottom: '10px',
-            marginTop: '20px'
-        };
+
 
         return (
             <div>

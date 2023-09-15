@@ -14,6 +14,7 @@ import GeoSpatialMap from './components/GeoSpatialMap';
 import Chat from './components/Chat';
 import Chats from './components/Chats';
 import 'leaflet/dist/leaflet.css';
+import Power4 from './components/Power4';
 
 
 
@@ -54,7 +55,7 @@ function App() {
           </div>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
             <hr className="main-separator" />
-          </div>
+          </div>          
           <div className="main-component-section">
             <h1 className="main-component-title">SEAT SELECTION</h1>
             <SeatingMap onSeatsSelected={handleSeatsSelected} cart={cart} />
@@ -95,6 +96,13 @@ function App() {
           <div className="main-component-section">
             <h1 className="main-component-title">GEOSPATIAL</h1>
             <GeoSpatialMap />
+          </div>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
+            <hr className="main-separator" />
+          </div>
+          <div className="main-component-section">
+            <h1 className="main-component-title">POWER 4</h1>
+            <Power4 />
           </div>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
             <hr className="main-separator" />

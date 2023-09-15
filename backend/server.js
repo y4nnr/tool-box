@@ -755,6 +755,71 @@ io.on('connection', (socket) => {
 
 
 ////////////////////////////////////////////// 
+//////POWER4
+// Create a 7x6 matrix filled with 'empty'
+function createEmptyBoard() {
+    const board = [];
+    for (let i = 0; i < 7; i++) {
+        board.push(Array(6).fill('empty'));
+    }
+    return board;
+}
+
+// GET the current board state
+app.get('/api/connect4/board', (req, res) => {
+    client.get('connect4_board', (err, board) => {
+        if (err) return res.status(500).send('Server error');
+
+        if (!board) {
+            const emptyBoard = createEmptyBoard();
+            client.set('connect4_board', JSON.stringify(emptyBoard));
+            res.json(emptyBoard);
+        } else {
+            res.json(JSON.parse(board));
+        }
+    });
+});
+
+// POST a coin drop in a specified column
+app.post('/api/connect4/dropCoin', (req, res) => {
+    const column = req.body.column;
+    const player = req.body.player;  // 'red' or 'yellow'
+
+    if (typeof column !== 'number' || (player !== 'red' && player !== 'yellow')) {
+        return res.status(400).json({ error: 'Invalid input.' });
+    }
+
+    client.get('connect4_board', (err, board) => {
+        if (err) return res.status(500).send('Server error');
+
+        const parsedBoard = board ? JSON.parse(board) : createEmptyBoard();
+        let dropped = false;
+
+        for (let i = 5; i >= 0; i--) {
+            if (parsedBoard[column][i] === 'empty') {
+                parsedBoard[column][i] = player;
+                dropped = true;
+                break;
+            }
+        }
+
+        if (dropped) {
+            client.set('connect4_board', JSON.stringify(parsedBoard));
+            res.json({ success: true, board: parsedBoard });
+        } else {
+            res.status(400).json({ success: false, message: 'Column full!' });
+        }
+    });
+});
+
+// POST to restart the game
+app.post('/api/connect4/restart', (req, res) => {
+    const emptyBoard = createEmptyBoard();
+    client.set('connect4_board', JSON.stringify(emptyBoard));
+    res.json({ success: true, message: 'Game restarted!' });
+});
+//////////////////////////////////////////////
+
 
 server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
