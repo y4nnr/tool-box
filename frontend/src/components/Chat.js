@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:3001');
 
-const Chat = ({ user, titleStyle }) => {
+const Chat = ({ user, titleStyle, icon }) => {
     const [message, setMessage] = useState('');
     const [chatLog, setChatLog] = useState([]);
 
@@ -77,8 +77,8 @@ const Chat = ({ user, titleStyle }) => {
             console.log('Received message:', msg);
             setChatLog((prevLog) => {
                 const newLog = [...prevLog, msg];
-                // If the length exceeds 5, remove the oldest message
-                while (newLog.length > 5) {
+                // If the length exceeds 4, remove the oldest message
+                while (newLog.length > 4) {
                     newLog.shift();
                 }
                 return newLog;
@@ -111,7 +111,7 @@ const Chat = ({ user, titleStyle }) => {
         
         <div style={styles.chatContainer}>
             
-            <h3 style={titleStyle}>{user}</h3>
+            <h3 style={titleStyle}><i className={icon}></i> {user}</h3>
             <div style={styles.chatLog}>
                 {chatLog.map((data, index) => (
                     <div key={index} style={data.user === user ? styles.chatMessageRight : styles.chatMessageLeft}>

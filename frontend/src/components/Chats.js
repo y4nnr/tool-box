@@ -4,11 +4,12 @@ import Chat from './Chat';
 const Chats = () => {
     return (
         <div style={styles.chatsContainer}>
-            <Chat user="User 1" titleStyle={titleStyle}/>
-            <Chat user="User 2" titleStyle={titleStyle}/>
+            <Chat user="User 1" icon="fa fa-user-o" titleStyle={titleStyle} />
+            <Chat user="User 2" icon="fa fa-user-o" titleStyle={titleStyle} />
         </div>
     );
 };
+
 
 const styles = {
     chatsContainer: {

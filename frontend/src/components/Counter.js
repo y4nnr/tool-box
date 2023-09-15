@@ -84,15 +84,15 @@ return (
       {/* Counter Display */}
       <div style={{ fontSize: '24px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
           <div class="card" style={{ padding: '10px 20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-              <p style={{ marginRight: '10px' }}><i class="fa fa-calculator"></i></p>
+              <p style={{ marginRight: '10px' }}><i class="fa fa-newspaper-o"></i></p>
               Count: {count}
           </div>
       </div>
 
       {/* Increment and Decrement buttons */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '20px' }}>
-          <button onClick={increment} style={buttonStyleFa}><i class="fa fa-plus-square"></i></button>
-          <button onClick={decrement} style={buttonStyleFa}><i class="fa fa-minus-square"></i></button>
+          <button onClick={increment} style={buttonStyleFa}><i class="fa fa-thumbs-up"></i></button>
+          <button onClick={decrement} style={buttonStyleFa}><i class="fa fa-thumbs-down"></i></button>
       </div>
 
       {/* Set Counter Manually */}
